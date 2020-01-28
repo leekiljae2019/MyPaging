@@ -1,6 +1,6 @@
 package com.afterwork.mypaging.di
 
-import com.afterwork.mypaging.MainViewModel
+import com.afterwork.mypaging.viewmodel.MainViewModel
 import com.afterwork.mypaging.model.MainDataModel
 import com.afterwork.mypaging.model.MainDataModelImpl
 import com.afterwork.mypaging.network.ApiService

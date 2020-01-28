@@ -1,12 +1,13 @@
 package com.afterwork.mypaging.utils
 
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.afterwork.mypaging.MainViewAdapter
-import com.afterwork.mypaging.MainViewModel
+import com.afterwork.mypaging.view.MainViewAdapter
+import com.afterwork.mypaging.viewmodel.MainViewModel
 import com.afterwork.mypaging.network.data.ImgContent
 import com.afterwork.mypaging.network.data.OgqContent
 import com.facebook.drawee.view.SimpleDraweeView
@@ -50,6 +51,16 @@ fun setMainViewAdapter(view: RecyclerView, items: List<OgqContent>, vm: MainView
         Log.d("mainViewAdapter", "MainViewAdapter create")
         MainViewAdapter(items, vm).apply { view.adapter = this }
     }
+
+    view.setOnScrollChangeListener(View.OnScrollChangeListener { view, i, i2, i3, i4 ->
+        Log.i(MainViewModel.TAG, "onScrollStateChanged()")
+        if (!view.canScrollVertically(-1)) {
+            Log.i("BindingAdapterEx", "Top of list");
+        } else if (!view.canScrollVertically(1)) {
+            Log.i("BindingAdapterEx", "End of list");
+            vm.onLast()
+        }
+    })
 }
 
 @BindingAdapter("refreshing")

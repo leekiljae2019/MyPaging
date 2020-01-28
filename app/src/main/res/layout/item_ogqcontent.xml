@@ -8,15 +8,15 @@
             type="com.afterwork.mypaging.network.data.OgqContent" />
         <variable
             name="vmMain"
-            type="com.afterwork.mypaging.MainViewModel" />
+            type="com.afterwork.mypaging.viewmodel.MainViewModel" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_margin="5dp">
         <com.facebook.drawee.view.SimpleDraweeView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center_vertical"
             android:background="@color/colorPrimary"
             thumbnailImage="@{item.images}"/>
@@ -24,14 +24,14 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp"
+            android:layout_marginLeft="80dp"
             emptyTitle="@{item.title}"
             android:textSize="14dp"/>
         <TextView
             android:id="@+id/tv_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp"
+            android:layout_marginLeft="80dp"
             android:layout_marginTop="5dp"
             android:layout_below="@id/tv_title"
             views="@{item.views_count}"
@@ -43,7 +43,7 @@
             android:id="@+id/tv_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp"
+            android:layout_marginLeft="80dp"
             android:layout_marginTop="5dp"
             android:layout_below="@id/tv_info"
             android:text="@{item.description}"

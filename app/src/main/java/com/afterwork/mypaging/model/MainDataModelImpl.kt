@@ -8,4 +8,8 @@ class MainDataModelImpl(private val service: ApiService): MainDataModel {
     override fun getRecent(): Single<Recent> {
         return service.getRecent()
     }
+
+    override fun getRecentNext(last_pos: String): Single<Recent> {
+        return service.getRecentNext(last_pos)
+    }
 }

@@ -5,4 +5,5 @@ import io.reactivex.Single
 
 interface MainDataModel {
     fun getRecent(): Single<Recent>
+    fun getRecentNext(last_pos: String): Single<Recent>
 }

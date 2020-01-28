@@ -1,4 +1,4 @@
-package com.afterwork.mypaging
+package com.afterwork.mypaging.view
 
 import android.view.View
 import androidx.databinding.DataBindingUtil
