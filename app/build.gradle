@@ -60,4 +60,10 @@ dependencies {
     // fresco
     implementation 'com.facebook.fresco:fresco:1.13.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+
+    // paging
+    implementation "androidx.paging:paging-runtime:$paging_version"
+    testImplementation "androidx.paging:paging-common:$paging_version"
+    implementation "androidx.paging:paging-rxjava2:$paging_version"
+
 }

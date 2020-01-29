@@ -21,9 +21,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:viewModel="@{vmMain}"
-                app:ogqContents="@{vmMain.items}"/>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+<!--                app:viewModel="@{vmMain}"-->
+<!--                app:ogqContents="@{vmMain.items}"/>-->
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </RelativeLayout>
 </layout>

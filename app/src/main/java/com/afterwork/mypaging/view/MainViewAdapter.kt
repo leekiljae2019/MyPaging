@@ -4,19 +4,29 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import com.afterwork.mypaging.R
 import com.afterwork.mypaging.databinding.ItemOgqcontentBinding
 import com.afterwork.mypaging.network.data.OgqContent
-import com.afterwork.mypaging.viewmodel.MainViewModel
 
-
-class MainViewAdapter(var items: List<OgqContent> = arrayListOf(), val vm: MainViewModel)
-        : RecyclerView.Adapter<MainViewAdapter.MainViewHolder>() {
+class MainViewAdapter: PagedListAdapter<OgqContent, MainViewAdapter.MainViewHolder>(DIFF_CALLBACK){
 
     companion object{
         val TAG = "MainViewAdapter"
+
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<OgqContent>() {
+            // The ID property identifies when items are the same.
+            override fun areItemsTheSame(oldItem: OgqContent, newItem: OgqContent) =
+                oldItem.getId() == newItem.getId()
+
+            // If you use the "==" operator, make sure that the object implements
+            // .equals(). Alternatively, write custom data comparison logic here.
+            override fun areContentsTheSame(
+                oldItem: OgqContent, newItem: OgqContent) = oldItem == newItem
+        }
     }
+
     class MainViewHolder(view: View) : BindingViewHolder<ItemOgqcontentBinding>(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -30,14 +40,8 @@ class MainViewAdapter(var items: List<OgqContent> = arrayListOf(), val vm: MainV
         )
     }
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
-
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         Log.d(TAG, "onBindViewHolder(position: $position)")
-        holder.binding.item = items[position]
-        holder.binding.vmMain = vm
+        holder.binding.item = getItem(position)
     }
-
 }
