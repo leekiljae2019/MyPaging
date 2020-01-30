@@ -1,12 +1,10 @@
 package com.afterwork.mypaging.di
 
-import com.afterwork.mypaging.viewmodel.ItemKeyPagingViewModel
 import com.afterwork.mypaging.model.OgqContentDataModel
 import com.afterwork.mypaging.model.OgqContentDataModelImpl
 import com.afterwork.mypaging.network.ApiService
-import com.afterwork.mypaging.viewmodel.PageKeyPagingViewModel
-import com.afterwork.mypaging.viewmodel.PositionalPagingViewModel
-import com.afterwork.mypaging.viewmodel.ScrollListenerViewModel
+import com.afterwork.mypaging.viewmodel.*
+import com.afterwork.mypaging.viewmodel.paging.PagingType
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -26,16 +24,8 @@ var viewModelPart = module {
         ScrollListenerViewModel(get())
     }
 
-    viewModel{
-        ItemKeyPagingViewModel(get())
-    }
-
-    viewModel{
-        PageKeyPagingViewModel(get())
-    }
-
-    viewModel{
-        PositionalPagingViewModel(get())
+    viewModel{ (pagingType: PagingType, model: OgqContentDataModel) ->
+        PagingViewModel(pagingType, model)
     }
 }
 

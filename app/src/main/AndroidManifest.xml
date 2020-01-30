@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         android:name=".MyApplication">
         <activity android:name=".view.MainActivity"
             android:screenOrientation="portrait">
@@ -22,13 +23,7 @@
         <activity android:name=".view.scrolllistener.ScrollListenerActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".view.paging.ItemKeyPagingActivity"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".view.paging.PageKeyPagingActivity"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".view.paging.PositionalPagingActivity"
+        <activity android:name=".view.paging.PagingActivity"
             android:screenOrientation="portrait">
         </activity>
     </application>

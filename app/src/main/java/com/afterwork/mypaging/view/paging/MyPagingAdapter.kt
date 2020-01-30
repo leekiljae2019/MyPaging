@@ -1,4 +1,4 @@
-package com.afterwork.mypaging.view.paging.common
+package com.afterwork.mypaging.view.paging
 
 import android.util.Log
 import android.view.LayoutInflater

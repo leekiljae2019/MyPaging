@@ -3,21 +3,14 @@ package com.afterwork.mypaging.utils
 import android.util.Log
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.afterwork.mypaging.network.data.ImgContent
 import com.afterwork.mypaging.network.data.OgqContent
-import com.afterwork.mypaging.view.paging.ItemKeyPagingActivity
-import com.afterwork.mypaging.view.paging.common.MyPagingAdapter
 import com.afterwork.mypaging.view.scrolllistener.ScrollListenerAdapter
-import com.afterwork.mypaging.viewmodel.ItemKeyPagingViewModel
 import com.afterwork.mypaging.viewmodel.ScrollListenerViewModel
 import com.facebook.drawee.view.SimpleDraweeView
-import kotlinx.android.synthetic.main.activity_itemkeypaging.*
 
 @BindingAdapter("thumbnailImage")
 fun thumbnailImage(view: SimpleDraweeView, images: List<ImgContent>){
@@ -25,7 +18,7 @@ fun thumbnailImage(view: SimpleDraweeView, images: List<ImgContent>){
     for(img in images) {
         if ("thumbnail".equals(img.getType())) {
             view.setImageURI(img.getUrl())
-            break;
+            break
         }
     }
 }

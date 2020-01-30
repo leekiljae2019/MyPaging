@@ -4,10 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.afterwork.mypaging.R
-import com.afterwork.mypaging.view.paging.ItemKeyPagingActivity
-import com.afterwork.mypaging.view.paging.PageKeyPagingActivity
-import com.afterwork.mypaging.view.paging.PositionalPagingActivity
+import com.afterwork.mypaging.view.paging.PagingActivity
 import com.afterwork.mypaging.view.scrolllistener.ScrollListenerActivity
+import com.afterwork.mypaging.viewmodel.paging.PagingType
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity: AppCompatActivity() {
@@ -25,15 +24,21 @@ class MainActivity: AppCompatActivity() {
         }
 
         itemKeyPaging.setOnClickListener {
-            startActivity(Intent(this, ItemKeyPagingActivity::class.java))
+            intent = Intent(this, PagingActivity::class.java)
+            intent.putExtra(PagingActivity.PAGING_TYPE, PagingType.ITEM_KEY)
+            startActivity(intent)
         }
 
         pageKeyPaging.setOnClickListener {
-            startActivity(Intent(this, PageKeyPagingActivity::class.java))
+            intent = Intent(this, PagingActivity::class.java)
+            intent.putExtra(PagingActivity.PAGING_TYPE, PagingType.PAGE_KEY)
+            startActivity(intent)
         }
 
         positionalPaging.setOnClickListener {
-            startActivity(Intent(this, PositionalPagingActivity::class.java))
+            intent = Intent(this, PagingActivity::class.java)
+            intent.putExtra(PagingActivity.PAGING_TYPE, PagingType.POSITIONAL)
+            startActivity(intent)
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.afterwork.mypaging.view.paging.common
+package com.afterwork.mypaging.view.paging
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

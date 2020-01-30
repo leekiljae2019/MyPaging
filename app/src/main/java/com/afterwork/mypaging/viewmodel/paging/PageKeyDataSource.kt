@@ -1,22 +1,24 @@
-package com.afterwork.mypaging.view.paging.positional
+package com.afterwork.mypaging.viewmodel.paging
 
 import android.util.Log
-import androidx.paging.PositionalDataSource
+import androidx.paging.PageKeyedDataSource
 import com.afterwork.mypaging.model.OgqContentDataModel
 import com.afterwork.mypaging.network.data.OgqContent
 import com.afterwork.mypaging.utils.NotNullMutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class PositionalDataSource(val model: OgqContentDataModel, val refreshing: NotNullMutableLiveData<Boolean>): PositionalDataSource<OgqContent>() {
+class PageKeyDataSource(val model: OgqContentDataModel, val refreshing: NotNullMutableLiveData<Boolean>): PageKeyedDataSource<Int, OgqContent>() {
 
     companion object {
         val TAG = "PageKeyDataSource"
     }
 
-    var next: String = ""
+    var next = ""
 
-    override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<OgqContent>) {
+    override fun loadInitial(
+        params: LoadInitialParams<Int>,
+        callback: LoadInitialCallback<Int, OgqContent>) {
         Log.d(TAG, "loadInitial()")
 
         refreshing.postValue(true)
@@ -29,7 +31,7 @@ class PositionalDataSource(val model: OgqContentDataModel, val refreshing: NotNu
                     val pos = it.getNext().indexOf("last_pos=")
                     next = it.getNext().substring(pos + "last_pos=".length)
                     refreshing.postValue(false)
-                    callback.onResult(it.getData(), 0)
+                    callback.onResult(it.getData(), null, 1)
                 }
             }, {
                 Log.d(TAG, "Failed: ${it.localizedMessage}")
@@ -37,14 +39,19 @@ class PositionalDataSource(val model: OgqContentDataModel, val refreshing: NotNu
             })
     }
 
-    override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<OgqContent>) {
-        load(next, callback)
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, OgqContent>) {
+        Log.d(TAG, "loadAfter(Key: ${params.key})")
+        load(params.key, callback)
     }
 
-    fun load(key: String, callback: LoadRangeCallback<OgqContent>){
+    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, OgqContent>) {
+        Log.d(TAG, "loadBefore(Key: ${params.key})")
+    }
+
+    fun load(key: Int, callback: LoadCallback<Int, OgqContent>){
         Log.d(TAG, "load(Key: ${key})")
         refreshing.postValue(true)
-        model.getRecentNext(key)
+        model.getRecentNext(next)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -53,7 +60,7 @@ class PositionalDataSource(val model: OgqContentDataModel, val refreshing: NotNu
                     val pos = it.getNext().indexOf("last_pos=")
                     next = it.getNext().substring(pos + "last_pos=".length)
                     refreshing.postValue(false)
-                    callback.onResult(it.getData())
+                    callback.onResult(it.getData(), key+1)
                 }
             }, {
                 Log.d(TAG, "Failed: ${it.localizedMessage}")

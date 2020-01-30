@@ -1,4 +1,4 @@
-package com.afterwork.mypaging.view.paging.itemkey
+package com.afterwork.mypaging.viewmodel.paging
 
 import android.util.Log
 import androidx.paging.ItemKeyedDataSource
