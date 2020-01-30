@@ -6,9 +6,6 @@
         <variable
             name="item"
             type="com.afterwork.mypaging.network.data.OgqContent" />
-        <variable
-            name="vmMain"
-            type="com.afterwork.mypaging.viewmodel.MainViewModel" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"

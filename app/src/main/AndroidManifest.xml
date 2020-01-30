@@ -12,12 +12,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".MyApplication">
-        <activity android:name=".view.MainActivity">
+        <activity android:name=".view.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".view.scrolllistener.ScrollListenerActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".view.paging.ItemKeyPagingActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".view.paging.PageKeyPagingActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".view.paging.PositionalPagingActivity"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

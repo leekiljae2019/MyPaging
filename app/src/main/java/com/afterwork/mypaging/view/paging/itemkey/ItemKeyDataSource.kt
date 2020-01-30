@@ -1,18 +1,19 @@
-package com.afterwork.mypaging.view.paging
+package com.afterwork.mypaging.view.paging.itemkey
 
 import android.util.Log
-import androidx.paging.DataSource
 import androidx.paging.ItemKeyedDataSource
-import com.afterwork.mypaging.model.MainDataModel
+import com.afterwork.mypaging.model.OgqContentDataModel
 import com.afterwork.mypaging.network.data.OgqContent
+import com.afterwork.mypaging.network.data.Recent
 import com.afterwork.mypaging.utils.NotNullMutableLiveData
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class MainDataSource(val model: MainDataModel, val refreshing: NotNullMutableLiveData<Boolean>): ItemKeyedDataSource<Int, OgqContent>(){
+class ItemKeyDataSource(val model: OgqContentDataModel, val refreshing: NotNullMutableLiveData<Boolean>): ItemKeyedDataSource<Int, OgqContent>(){
 
     companion object {
-        val TAG = "MainDataSource"
+        val TAG = "ItemKeyDataSource"
     }
 
     var index = 0
@@ -47,7 +48,7 @@ class MainDataSource(val model: MainDataModel, val refreshing: NotNullMutableLiv
     fun load(key: Int, callback: LoadCallback<OgqContent>){
         Log.d(TAG, "load(Key: ${key}, value: ${keyMap[key]?:""})")
         refreshing.postValue(true)
-        model.getRecentNext(keyMap[key]?:"")
+        getRecent(key)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -63,6 +64,11 @@ class MainDataSource(val model: MainDataModel, val refreshing: NotNullMutableLiv
                 Log.d(TAG, "Failed: ${it.localizedMessage}")
                 refreshing.postValue(false)
             })
+    }
+
+    fun getRecent(key: Int): Single<Recent> {
+        if(key == 0) return model.getRecent()
+        return model.getRecentNext(keyMap[key]?:"")
     }
 
     fun reset(){

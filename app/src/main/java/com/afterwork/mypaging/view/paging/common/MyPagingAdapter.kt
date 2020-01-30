@@ -1,4 +1,4 @@
-package com.afterwork.mypaging.view
+package com.afterwork.mypaging.view.paging.common
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,11 +9,14 @@ import androidx.recyclerview.widget.DiffUtil
 import com.afterwork.mypaging.R
 import com.afterwork.mypaging.databinding.ItemOgqcontentBinding
 import com.afterwork.mypaging.network.data.OgqContent
+import com.afterwork.mypaging.view.BindingViewHolder
 
-class MainViewAdapter: PagedListAdapter<OgqContent, MainViewAdapter.MainViewHolder>(DIFF_CALLBACK){
+class MyPagingAdapter: PagedListAdapter<OgqContent, MyPagingAdapter.MainViewHolder>(
+    DIFF_CALLBACK
+){
 
     companion object{
-        val TAG = "MainViewAdapter"
+        val TAG = "MyPagingAdapter"
 
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<OgqContent>() {
             // The ID property identifies when items are the same.

@@ -1,38 +1,39 @@
 package com.afterwork.mypaging.view
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
+import androidx.appcompat.app.AppCompatActivity
 import com.afterwork.mypaging.R
-import com.afterwork.mypaging.databinding.ActivityMainBinding
+import com.afterwork.mypaging.view.paging.ItemKeyPagingActivity
+import com.afterwork.mypaging.view.paging.PageKeyPagingActivity
+import com.afterwork.mypaging.view.paging.PositionalPagingActivity
+import com.afterwork.mypaging.view.scrolllistener.ScrollListenerActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.androidx.viewmodel.ext.android.getViewModel
 
-class MainActivity : AppCompatActivity() {
-    companion object {
+class MainActivity: AppCompatActivity() {
+
+    companion object{
         val TAG = "MainActivity"
     }
 
-    lateinit var binding: ActivityMainBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-        binding = DataBindingUtil.setContentView(this,
-            R.layout.activity_main
-        )
-        binding.vmMain = getViewModel()
-        binding.lifecycleOwner = this
+        scrollListener.setOnClickListener {
+            startActivity(Intent(this, ScrollListenerActivity::class.java))
+        }
 
-        val adapter = MainViewAdapter()
-        list.adapter = adapter
+        itemKeyPaging.setOnClickListener {
+            startActivity(Intent(this, ItemKeyPagingActivity::class.java))
+        }
 
-        binding.vmMain?.load(0)?.observe(this, Observer{
-            Log.d(TAG, "CALLED binding.vmMain.load().observe()")
-            adapter.submitList(it)
-        })
+        pageKeyPaging.setOnClickListener {
+            startActivity(Intent(this, PageKeyPagingActivity::class.java))
+        }
 
+        positionalPaging.setOnClickListener {
+            startActivity(Intent(this, PositionalPagingActivity::class.java))
+        }
     }
 }

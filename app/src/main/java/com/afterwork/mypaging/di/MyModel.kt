@@ -1,9 +1,12 @@
 package com.afterwork.mypaging.di
 
-import com.afterwork.mypaging.viewmodel.MainViewModel
-import com.afterwork.mypaging.model.MainDataModel
-import com.afterwork.mypaging.model.MainDataModelImpl
+import com.afterwork.mypaging.viewmodel.ItemKeyPagingViewModel
+import com.afterwork.mypaging.model.OgqContentDataModel
+import com.afterwork.mypaging.model.OgqContentDataModelImpl
 import com.afterwork.mypaging.network.ApiService
+import com.afterwork.mypaging.viewmodel.PageKeyPagingViewModel
+import com.afterwork.mypaging.viewmodel.PositionalPagingViewModel
+import com.afterwork.mypaging.viewmodel.ScrollListenerViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -13,14 +16,26 @@ import retrofit2.converter.gson.GsonConverterFactory
 val API_BASE_URL = "http://bgh.ogqcorp.com"
 
 var modelPart = module {
-    factory<MainDataModel> {
-        MainDataModelImpl(get())
+    factory<OgqContentDataModel> {
+        OgqContentDataModelImpl(get())
     }
 }
 
 var viewModelPart = module {
     viewModel {
-        MainViewModel(get())
+        ScrollListenerViewModel(get())
+    }
+
+    viewModel{
+        ItemKeyPagingViewModel(get())
+    }
+
+    viewModel{
+        PageKeyPagingViewModel(get())
+    }
+
+    viewModel{
+        PositionalPagingViewModel(get())
     }
 }
 

@@ -3,15 +3,21 @@ package com.afterwork.mypaging.utils
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
-import androidx.paging.PagedList
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.afterwork.mypaging.view.MainViewAdapter
-import com.afterwork.mypaging.viewmodel.MainViewModel
 import com.afterwork.mypaging.network.data.ImgContent
 import com.afterwork.mypaging.network.data.OgqContent
+import com.afterwork.mypaging.view.paging.ItemKeyPagingActivity
+import com.afterwork.mypaging.view.paging.common.MyPagingAdapter
+import com.afterwork.mypaging.view.scrolllistener.ScrollListenerAdapter
+import com.afterwork.mypaging.viewmodel.ItemKeyPagingViewModel
+import com.afterwork.mypaging.viewmodel.ScrollListenerViewModel
 import com.facebook.drawee.view.SimpleDraweeView
+import kotlinx.android.synthetic.main.activity_itemkeypaging.*
 
 @BindingAdapter("thumbnailImage")
 fun thumbnailImage(view: SimpleDraweeView, images: List<ImgContent>){
@@ -38,32 +44,32 @@ fun textInfo(view: TextView, views: Int, likes: Int, downloads: Int){
     view.setText("Views: $views, Likes: $likes, Downloads: $downloads")
 }
 
-//@BindingAdapter(value = ["viewModel", "ogqContents"], requireAll = true)
-//fun setMainViewAdapter(view: RecyclerView, vm: MainViewModel, items: PagedList<OgqContent>) {
-//    Log.d("mainViewAdapter", "mainViewAdapter")
-//
-//    view.adapter?.run {
-//        if (this is MainViewAdapter) {
-//            Log.d("mainViewAdapter", "MainViewAdapter already created")
-//            this.notifyDataSetChanged()
-//        }
-//    } ?: run {
-//        Log.d("mainViewAdapter", "MainViewAdapter create")
-//        MainViewAdapter().apply { view.adapter = this }
-//        val adapter = view.adapter as MainViewAdapter
-//        adapter.submitList(items)
-//    }
+@BindingAdapter(value = ["ogqContents", "viewModel"], requireAll = true)
+fun setRecyclerViewAdapter(view: RecyclerView, items: List<OgqContent>, vm: ScrollListenerViewModel) {
+    Log.d("BindingAdapterEx", "mainViewAdapter")
 
-//    view.setOnScrollChangeListener(View.OnScrollChangeListener { view, i, i2, i3, i4 ->
-//        Log.i(MainViewModel.TAG, "onScrollStateChanged()")
-//        if (!view.canScrollVertically(-1)) {
-//            Log.i("BindingAdapterEx", "Top of list");
-//        } else if (!view.canScrollVertically(1)) {
-//            Log.i("BindingAdapterEx", "End of list");
-//            vm.onLast()
-//        }
-//    })
-//}
+    view.adapter?.run {
+        if (this is ScrollListenerAdapter) {
+            Log.d("BindingAdapterEx", "item size: ${items.size}")
+            this.items = items
+            this.notifyDataSetChanged()
+        }
+    } ?: run {
+        Log.d("BindingAdapterEx", "ScrollListenerAdapter create")
+        ScrollListenerAdapter(items).apply { view.adapter = this }
+    }
+
+    view.setOnScrollChangeListener(View.OnScrollChangeListener { view, i, i2, i3, i4 ->
+        Log.i("BindingAdapterEx", "onScrollStateChanged()")
+        if (!view.canScrollVertically(-1)) {
+            Log.i("BindingAdapterEx", "Top of list");
+        } else if (!view.canScrollVertically(1)) {
+            Log.i("BindingAdapterEx", "End of list");
+            vm.onLast()
+        }
+    })
+}
+
 
 @BindingAdapter("refreshing")
 fun SwipeRefreshLayout.refreshing(_visible: Boolean) {
