@@ -1,6 +1,8 @@
 package com.afterwork.mypaging.viewmodel.paging
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
+import androidx.paging.DataSource
 import androidx.paging.ItemKeyedDataSource
 import com.afterwork.mypaging.model.OgqContentDataModel
 import com.afterwork.mypaging.network.data.OgqContent
@@ -10,11 +12,30 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class ItemKeyDataSource(val model: OgqContentDataModel, val refreshing: NotNullMutableLiveData<Boolean>): ItemKeyedDataSource<Int, OgqContent>(){
+class ItemKeyDataSource(val model: OgqContentDataModel, val refreshing: NotNullMutableLiveData<Boolean>): ItemKeyedDataSource<Int, OgqContent>(), BaseDataSource{
 
     companion object {
         val TAG = "ItemKeyDataSource"
     }
+
+    //-- BaseDataSource --------------------
+    val sourceLiveData = MutableLiveData<ItemKeyDataSource>()
+
+    override fun init(){
+        sourceLiveData.postValue(this)
+    }
+
+    override fun get(): DataSource<Int, OgqContent> {
+        return this
+    }
+
+    override fun reset(){
+        index = 0
+        keyMap.clear()
+        keyMap[0] = ""
+        invalidate()
+    }
+    //-- BaseDataSource --------------------
 
     var index = 0
     var keyMap: MutableMap<Int, String> = mutableMapOf(0 to "")
@@ -69,12 +90,5 @@ class ItemKeyDataSource(val model: OgqContentDataModel, val refreshing: NotNullM
     fun getRecent(key: Int): Single<Recent> {
         if(key == 0) return model.getRecent()
         return model.getRecentNext(keyMap[key]?:"")
-    }
-
-    fun reset(){
-        index = 0
-        keyMap.clear()
-        keyMap[0] = ""
-        invalidate()
     }
 }

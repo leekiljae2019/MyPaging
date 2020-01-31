@@ -1,6 +1,8 @@
 package com.afterwork.mypaging.viewmodel.paging
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
+import androidx.paging.DataSource
 import androidx.paging.PositionalDataSource
 import com.afterwork.mypaging.model.OgqContentDataModel
 import com.afterwork.mypaging.network.data.OgqContent
@@ -8,11 +10,27 @@ import com.afterwork.mypaging.utils.NotNullMutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class PositionalDataSource(val model: OgqContentDataModel, val refreshing: NotNullMutableLiveData<Boolean>): PositionalDataSource<OgqContent>() {
+class PositionaalDataSource(val model: OgqContentDataModel, val refreshing: NotNullMutableLiveData<Boolean>): PositionalDataSource<OgqContent>(), BaseDataSource {
 
     companion object {
-        val TAG = "PageKeyDataSource"
+        val TAG = "PositionaalDataSource"
     }
+
+    //-- BaseDataSource --------------------
+    val sourceLiveData = MutableLiveData<PositionaalDataSource>()
+
+    override fun init() {
+        sourceLiveData.postValue(this)
+    }
+
+    override fun get(): DataSource<Int, OgqContent> {
+        return this
+    }
+
+    override fun reset() {
+        invalidate()
+    }
+    //-- BaseDataSource --------------------
 
     var next: String = ""
 
@@ -61,7 +79,4 @@ class PositionalDataSource(val model: OgqContentDataModel, val refreshing: NotNu
             })
     }
 
-    fun reset(){
-        invalidate()
-    }
 }

@@ -5,10 +5,8 @@ import android.util.Log
 import androidx.lifecycle.Observer
 import com.afterwork.mypaging.R
 import com.afterwork.mypaging.databinding.ActivityPagingBinding
-import com.afterwork.mypaging.model.OgqContentDataModelImpl
 import com.afterwork.mypaging.viewmodel.paging.PagingType
 import kotlinx.android.synthetic.main.activity_paging.*
-import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -25,12 +23,7 @@ class PagingActivity: BaseActivity<ActivityPagingBinding>(){
         super.onCreate(savedInstanceState)
 
         var pagingType: PagingType = intent.getSerializableExtra(PAGING_TYPE) as PagingType
-        binding.vmPaging = getViewModel {
-            parametersOf(
-                pagingType,
-                OgqContentDataModelImpl(get())
-            )
-        }
+        binding.vmPaging = getViewModel{ parametersOf(pagingType) }
         binding.lifecycleOwner = this
 
         val adapter = MyPagingAdapter()

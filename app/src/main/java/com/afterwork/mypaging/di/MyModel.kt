@@ -24,8 +24,8 @@ var viewModelPart = module {
         ScrollListenerViewModel(get())
     }
 
-    viewModel{ (pagingType: PagingType, model: OgqContentDataModel) ->
-        PagingViewModel(pagingType, model)
+    viewModel{ (pagingType: PagingType) ->
+        PagingViewModel(pagingType, get())
     }
 }
 
